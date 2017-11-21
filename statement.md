@@ -9,10 +9,10 @@ Les design patterns sont des méthodes souvent utlisées lors du développement 
 
 Les design patterns sont regroupés en 3 grandes familles:
 1. Les patterns de création
-1. Les patterns de structuration
-1. Les patterns comportementaux
+2. Les patterns de structuration
+3. Les patterns comportementaux
 
-Ici, le design pattern State fait partie de la famille des patterns comportementaux.
+Ici, le design pattern State fait partie de la famille des **patterns comportementaux**.
 
 # Pourquoi la famille des patterns comportementaux ?
 
