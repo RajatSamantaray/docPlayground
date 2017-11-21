@@ -1,24 +1,9 @@
-# Welcome!
+# Bienvenue
 
-This Java template lets you get started quickly with a simple one-page playground.
+Bonjour à tous. Ce playground va servir à présenter et expliquer ce qu'est le design pattern State.
 
-```java runnable
-// { autofold
-public class Main {
 
-public static void main(String[] args) {
-// }
 
-String message = "Hello World!";
-System.out.println(message);
-
-//{ autofold
-}
-
-}
-//}
-```
-
-# Advanced usage
+# Design Pattern
 
 If you want a more complex example (external libraries, viewers...), use the [Advanced Java template](https://tech.io/select-repo/385)
