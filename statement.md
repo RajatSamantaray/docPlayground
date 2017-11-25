@@ -18,4 +18,4 @@ Ici, le design pattern State fait partie de la famille des **patterns comporteme
 
 L'une des raisons principales est que le pattern State est utilisé pour **changer le comportement** d'un objet sans toucher à son instanciation.
 
-![diag_state](https://github.com/NicolasAirault/playground-54yjyHAd/blob/master/cover.png)
+![diag_state](https://github.com/NicolasAirault/playground-54yjyHAd/blob/master/Screenshot_1.png)
