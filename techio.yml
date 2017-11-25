@@ -1,6 +1,8 @@
 title: Design Pattern State
 plan:
-- title: Part 1
+- title: Introduction
   statement: statement.md
-- title : Part 2
+- title : Exemples
   statement: page2.md
+- title : Quiz
+  statement: quiz.md
