@@ -1,9 +1,3 @@
-
-# Pourquoi la famille des patterns comportementaux ?
-
-L'une des raisons principales est que le pattern State est utilisé pour **changer le comportement** d'un objet sans toucher à son instanciation.
-
-
 # Passons à un exemple
 
 Imaginons que nous souhaitons coder un lecteur vidéo très simple. Ce lecteur pourra uniquement lire une vidéo ou la mettre en pause.
