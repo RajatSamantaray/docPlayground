@@ -12,20 +12,20 @@
 -[ ] ... des design patterns de structuration
 -[ ] ... des design patterns de lévitation
 
-?[?]
--[ ] There is no answer to that!
--[ ] Sleep and eat
--[x] Easy, this is 42
--[ ] Peace & Love
+?[L'objet créé sur la page précédente est une ...]
+-[ ] ... Caméra
+-[ ] ... Bougie
+-[ ] ... fleur
+-[x] ... Vidéo
 
-?[?]
--[ ] There is no answer to that!
--[ ] Sleep and eat
--[x] Easy, this is 42
--[ ] Peace & Love
+?[Le design pattern State permet donc ...]
+-[ ] ... de complexifier le programme
+-[x] ... d'ajouter de nouvelles fonctionnalités facilement
+-[ ] ... de crypter le programme
+-[ ] ... de rien faire, c'est un pattern inutile
 
-?[?]
--[ ] There is no answer to that!
--[ ] Sleep and eat
--[x] Easy, this is 42
--[ ] Peace & Love
+?[ ] 
+-[ ] 
+-[ ] 
+-[ ] 
+-[ ] 
