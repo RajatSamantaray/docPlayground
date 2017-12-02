@@ -30,3 +30,9 @@
 -[ ] Peut-être
 -[ ] Je sais pas
 
+?[Le design pattern State permet donc ...]
+-[ ] ... de complexifier le programme
+-[x] ... d'ajouter de nouvelles fonctionnalités facilement
+-[ ] ... de crypter le programme
+-[ ] ... de rien faire, c'est un pattern inutile
+
