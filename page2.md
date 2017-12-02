@@ -7,9 +7,9 @@ L'une des raisons principales est que le pattern State est utilisé pour **chang
 # Passons à un exemple
 
 Imaginons que nous souhaitons coder un lecteur vidéo très simple. Ce lecteur pourra uniquement lire une vidéo ou la mettre ne pause.
-Nous voyons donc facilement qu'il n'y que deux états différents possible pour une vidéo dans ce logiciel:
--.**Lecture**
--.**Pause**
+Nous voyons donc facilement qu'il n'y que deux états différents possible pour une vidéo dans ce logiciel: 
+1. **Lecture**
+2. **Pause**
 
 Evidemment, nous pourrions coder ce programme de cette manière :
 ``` java runnable 
