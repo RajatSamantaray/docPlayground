@@ -92,8 +92,7 @@ class Video {
     }
 }
 ```
-
-En effectuant les mêmes actions que tout à l'heure on observe que le résultat est identique. Heureusement!
+On teste maintenant le programme avec les mêmes actions que précedemment
 ``` java runnable 
 interface EtatVideo {
     void action(Video context);
@@ -144,6 +143,10 @@ public class Main {
     }
 }
 ```
+On observe que le résultat est identique. Heureusement!
+
+
+
 On obtient le **diagramme de classe suivant**
 
 
