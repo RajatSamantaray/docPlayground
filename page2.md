@@ -13,7 +13,7 @@ Nous voyons donc facilement qu'il n'y que deux états différents possible pour 
 
 Evidemment, nous pourrions coder ce programme de cette manière :
 ``` java runnable 
-public class Video {
+class Video {
 
 	private String etat="";
 
