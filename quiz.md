@@ -24,8 +24,7 @@
 -[ ] ... de crypter le programme
 -[ ] ... de rien faire, c'est un pattern inutile
 
-?[ ] 
--[ ] 
--[ ] 
--[ ] 
--[ ] 
+?[Sur l'exemple précédent, est-il possible d'ajouter une fonctionnalité  "SeRendreAuMillieuDeLaVidéo" sans toucher au code existant ?] 
+-[x] Oui
+-[ ] Non
+-[ ] Je sais pas
