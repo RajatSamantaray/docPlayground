@@ -159,9 +159,10 @@ Après avoir testé la méthode classique et celle utilisant le pattern State, o
 Et bien le pattern State va permettre au code d'évoluer très facilement!
 
 Si nous décidons d'ajouter une fonctionnalité **retour au début de la vidéo**, avec la méthode classique, **nous devrions rajouter une condition dans la méthode action de la classe Video**. Or, avec le design pattern State, nous ne touchons pas au code existant!
+** Nous rajoutons simplement la classe RetourAuDebut qui implémente EtatVideo**
 
-## Nous rajoutons simplement la classe RetourAuDebut qui implémente EtatVideo
-Ce qui donnerait ceci par exemple:
+## Création de la classe RetourAuDebut
+Cette classe pourrait se coder ainsi:
 ``` java
 class RetourAuDebut implements EtatVideo {
 
