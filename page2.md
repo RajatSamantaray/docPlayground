@@ -42,7 +42,7 @@ public class Main{
 }
 ```
 
-**Maintenant on code ce lecteur à l'aide du pattern State**
+## Maintenant on code ce lecteur à l'aide du pattern State
 
 Tout d'abord on crée une interface nommée EtatVideo de cette forme:
 
@@ -147,7 +147,7 @@ On observe que le résultat est identique. Heureusement!
 
 
 
-On obtient le **diagramme de classe suivant**
+## On obtient le diagramme de classe suivant
 
 
 ![Diag_design](Screenshot_2.png)
@@ -160,7 +160,7 @@ Et bien le pattern State va permettre au code d'évoluer très facilement!
 
 Si nous décidons d'ajouter une fonctionnalité **retour au début de la vidéo**, avec la méthode classique, **nous devrions rajouter une condition dans la méthode action de la classe Video**. Or, avec le design pattern State, nous ne touchons pas au code existant!
 
-**Nous rajoutons simplement la classe RetourAuDebut qui implémente EtatVideo**
+## Nous rajoutons simplement la classe RetourAuDebut qui implémente EtatVideo
 Ce qui donnerait ceci par exemple:
 ``` java
 class RetourAuDebut implements EtatVideo {
