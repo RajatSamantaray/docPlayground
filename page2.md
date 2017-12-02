@@ -28,7 +28,8 @@ class Video {
 			System.out.println("La vidéo est en pause");
 		}
 	}
-
+}
+public clas Main{
 	public static void main(String args[]){
 		Video video = new Video();
 
