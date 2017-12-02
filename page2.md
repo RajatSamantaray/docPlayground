@@ -6,10 +6,10 @@ L'une des raisons principales est que le pattern State est utilisé pour **chang
 
 # Passons à un exemple
 
-Imaginons que nous souhaitons coder un lecteur vidéo très simple. Ce lecteur pourra uniquement lire une vidéo ou la mettre ne pause.
+Imaginons que nous souhaitons coder un lecteur vidéo très simple. Ce lecteur pourra uniquement lire une vidéo ou la mettre en pause.
 Nous voyons donc facilement qu'il n'y que deux états différents possible pour une vidéo dans ce logiciel: 
-1. **Lecture**
-2. **Pause**
+-. **Lecture**
+-. **Pause**
 
 Evidemment, nous pourrions coder ce programme de cette manière :
 ``` java runnable 
@@ -44,7 +44,7 @@ public class Main{
 
 **Maintenant on code ce lecteur à l'aide du pattern State**
 
-Tout d'abord on crée une interface nommée EtatVideo de cette forme 
+Tout d'abord on crée une interface nommée EtatVideo de cette forme:
 
 ``` java
 interface EtatVideo {
@@ -152,14 +152,15 @@ On obtient le **diagramme de classe suivant**
 
 ![Diag_design](Screenshot_2.png)
 
-# Pourquoi utiliser le pattern State
+# Pourquoi utiliser le Design Pattern State
 
-Après avoir testé la méthode classique et celle utilisant le pattern State, on est en droite de se demander **quel peut être l'intérêt d'utiliser le pattern State**. En effet, il va **nécessiter de créer plus de classe et donc d'écrire plus de code pour au final le même résultat**.
+Après avoir testé la méthode classique et celle utilisant le pattern State, on est en droit de se demander **quel peut être l'intérêt d'utiliser le pattern State**. En effet, il va **nécessiter de créer plus de classe et donc d'écrire plus de code pour au final le même résultat**.
 
 Et bien le pattern State va permettre au code d'évoluer très facilement!
+
 Si nous décidons d'ajouter une fonctionnalité **retour au début de la vidéo**, avec la méthode classique, **nous devrions rajouter une condition dans la méthode action de la classe Video**. Or, avec le design pattern State, nous ne touchons pas au code existant!
 
-**Nous rajoutons simplement classe RetourAuDebut qui implémente EtatVideo**
+**Nous rajoutons simplement la classe RetourAuDebut qui implémente EtatVideo**
 Ce qui donnerait ceci par exemple:
 ``` java
 class RetourAuDebut implements EtatVideo {
