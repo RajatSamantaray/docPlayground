@@ -27,4 +27,6 @@
 ?[Sur l'exemple précédent, est-il possible d'ajouter une fonctionnalité  "SeRendreAuMillieuDeLaVidéo" sans toucher au code existant ?] 
 -[x] Oui
 -[ ] Non
+-[ ] Peut-être
 -[ ] Je sais pas
+
