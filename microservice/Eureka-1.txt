@@ -1,0 +1,64 @@
+Service discovery pattern
+------------------------
+In this pattern, a service registers itself with a central server called the Service Registry.
+Once it registers itself with the Service Registry 
+
+1)Its details like name, port, host, etc are stored in the service registry
+2)A list of other registered services become available to it
+
+When the service redeploys, it would simply update its information in the service registry again. The other services would discover about its updated details through the service registry.
+eg: Netflix Eureka, etcd, ZooKeeper, consul, etc.
+==========================================================
+Netflix Eureka
+------------
+The details of the Eureka  are also stored in the GIT repo which can be accessed using the ConfigServer
+ 
+1) Create a MS name infytel-eureka
+
+2) Add the dependencies: //spring-cloud-starter-eureka-server
+or spring-cloud-starter-netflix-eureka-server
+<dependency>	
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-eureka-server</artifactId>
+</dependency>
+
+3)Add the below properties in the application.properties file of infytel-eureka.
+
+spring.application.name=Eureka1
+server.port=5555
+eureka.client.fetch-registry=false
+eureka.client.register-with-eureka=false
+eureka.client.service-url.defaultZone=http://localhost: 5555/eureka
+==========================================
+register-with-eureka property when set to true (by default ) will register an application with the Eureka Sever. Such an application is also called a Eureka Instance. The Eureka Instance will start sending heartbeats to the Eureka Server. If the Eureka server does not receive heartbeats from a Instance within a configurable time limit ( every 30 secs by default) , it considers the Instance to be down and deregisters it from the registry.
+
+fetch-registry property will fetch the registry from the Eureka Sever once at startup time and will cache it. It will check the Eureka Server at regular intervals (default every 30 secs) to see if there are any changes. If there are changes, it fetches only the updates and the unchanged parts will be continued to be accessed from cache.
+
+
+===============================================
+4.Add @EnableEurekaServer or @EnableDiscoveryServer
+ annotation in the application file of infytel-eureka 
+5.Add the dependency in all the microservices//spring-cloud-starter-eureka
+
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-eureka</artifactId>
+</dependency>
+
+6.Add @EnableDiscoveryClient in all microservices application file // @EnableEurekaClient
+//@EnableDiscoveryClient annotation makes an application an Eureka instance as well as an Eureka Client. Every application registered with Eureka is an Eureka instance. Since every Eureka instance can also get details about other registered Eureka instances, it also becomes a client.
+
+7.Add the below property in the application.properties file in git 
+
+eureka.client.service-url.defaultZone=http://localhost:5555/eureka 
+  
+8.Autowire Discovery client in CustomerController class as @Autowired DiscoveryClient client;
+
+9.Remove the String friendUri; from CustomerController and update the code in accessing the friend-family-service as:
+
+List<ServiceInstance> instances=client.getInstances("FriendFamilyMS");
+ServiceInstance instance=instances.get(0);
+URI friendUri = instance.getUri();
+==========
+http://{eureka-host}:{eureka-port}/{eureka}/apps/{spring-application-name}
+===================

@@ -1,0 +1,35 @@
+Need of API gateway?
+---------------
+In our application, the UI application has to send requests to the different microservices directly. 
+But since the microservices are in cloud, the host and port are changing frequently. 
+Hence it is not sustainable for the UI application to talk to the microservices directly.
+The better approach is the UI application sends its request to a proxy server which then forwards the request to appropriate microservices. This type of proxy is also called as reverse proxy.
+
+There are several problems with this approach:
+
+1.The client is now responsible for both gathering, aggregating and formatting the content
+
+2.The client must know the port and host of the services. If they change constantly then the client code also has to change
+
+3.If we decide to refractor the services later on by merging two services together, it would break the client
+
+4.The services may not always respond back in HTTP protocols. Thus the protocols may be incompatible with a browser
+
+5.The number of requests fired by the client is more
+
+6.Different clients need different data
+
+The API gateway pattern is a solution to the problems of a client invoking microservices. In a API gateway pattern you have a API gateway server which comes in between the client and the services.
+The API gateway performs complex tasks including:
+
+Intelligent routing======> When a request comes from the client it intelligently routes it to the appropriate services
+Client Specific API=======> A mobile client and a web client need different treatment and an API gateway provides specific API’s for each client
+It also does:====>
+
+Request Aggregation. Based on a single request from the client, it invokes multiple services, aggregates the result and sends it back
+
+Protocol translation. It will be responsible for taking data from a service through let’s say AMQP and sends the data to the client over HTTP
+Security
+Load balancing
+What is BFF?
+A BFF or Backend for Front End is a variation of the API gateway pattern. Instead of having a single API gateway for all types of UI applications, we can have dedicated API gateway for Dekstop, mobile, etc. The advantage is that the UI application and the API gateway will be maintained by the same team and they can configure the routes to their specific needs.

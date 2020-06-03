@@ -1,0 +1,44 @@
+Monolithic Approach - Limitations
+1) Large codebase, no restriction on size
+2) Longer development time
+3)Challenging deployment
+4)Fixed technology stack
+5)Tight coupling among modules and services
+6)Failure in part of system could affect entire system
+7)Scaling is complex
+8)Single service on server
+9)Minor change requires complete rebuild
+-----------------------------
+microservice 
+It is an architectural style
+used for developing a single application as a suite of small services.
+microservices 
+-may be written in different programming languages 
+-can use different data storage technologies.
+-can independently deployable
+-each running in its own process 
+-communicating with lightweight mechanisms(an HTTP resource API.
+Microservices
+1)Atomic
+-------
+->Each Service will do a specific, atomic action or set of actions
+->Each Service runs in its own process
+->Communicate with light weight  mechanisms (Like HTTP)
+
+2)Collaborative
+------------
+->Bare Minimum of Centralized Management of services
+->No Central Command and Control
+
+3)Independent and focuced
+-----------------
+->Can be written in different programming languages
+
+->Are independently deployable
+
+->Each service has its own data storage
+
+->Do One thing and do that thing well – Single Responsibility Principle
+----------
+decentralized governance
+

@@ -1,0 +1,71 @@
+Monolithic applications are deployed as a single file
+They have problems in deployment, scaling, technology, etc.
+Microservices is an architectural style in which the bigger single application is broken down into loosely coupled services
+These services are individually maintained, deployed, developed, tested
+These services intercommunicate using light weight protocols like REST.
+Each service can use its own set of technologies.
+----------------------------------------------------------------------
+Service Boundaries: We have to split functionalities based on their bounded contexts. Bounded contexts define the scope of the services such that a change in one does not affect other services. This ensures that the services are autonomous and are loosely coupled with  others. This is based on the Domain Driven design principles. Each application/domain is split into subdomains.
+Single Responsibility: Each Microservice should do only one thing. It should be responsible for only thing.
+Common Closure Principle: Functionalities that change should be packaged together so that changes to one does not percolate to other teams
+
+-------------------------------------
+1)Remove foregin key constraints and seperate schema/table
+Customer is having single filed as planid,
+Friendfamily phoneno without forign key
+2)Remove entity relationship btw entities
+delete family,plan entities from infytelcustomer
+customer.dto remove 
+PlanDTO method->
+customerDTO remove friend 
+3)create endpoints in plan MS
+4)Update customercontroller to get data from planms
+5)create endpoint in friendfamily ms
+6)Update customercontroller to get data from friend familyms
+--------------------------------------------------------------------
+Spring Cloud Config
+---------------------
+Centralized external configuration management backed by a git repository. 
+The configuration resources map directly to Spring `Environment` but could be used by non-Spring applications if desired.
+---------------------
+//Config server
+<properties>
+<java.version>1.8</java.version>
+<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+</properties>
+<dependencies>
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+
+Config client //all micro
+-----
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-config</artifactId>
+
+-----------------------------------------------------------
+Split a monolithic application into microservices.
+Store configuration details on cloud using CloudConfig
+Load balance requests between microservices using Ribbon
+Discover services in cloud using Eureka
+Increase resilience through Hystrix
+Use asynchronous communication to improve performance
+Create a API gateway using Zuul
+Simplify REST calls through Feign
+Secure microservices using OAuth through Spring Cloud Security
+Monitor your microservices through Turbine, Sleuth and Zipkin
+----------------------------------------------------------
+
+Spring-Cloud Netflix has a client load balancer called Ribbon
+Using Netflix Hystrix, we can apply a circuit breaker pattern -falllback
+ZUll-API gateway
+Feign is a declarative client from Netflix
+
+
+
+
+
+
+
+</dependency>

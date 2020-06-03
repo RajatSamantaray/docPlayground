@@ -1,0 +1,12 @@
+Eureka with Ribbon
+===============
+Steps:
+====
+1) Add dependency spring-cloud-starter-eureka in all MS
+2)Add dependency spring-cloud-starter-netflix-ribbon in Consumer-EurekaRibbon
+3)Add application.property User
+eureka.instance.instance-id==${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+//this is for ribbon to work with multiple instance 
+4) Add @EnableEurekaClient and @Bean @LoadBalanced in Consumer-EurekaRibbon
+5) In Controller for Rest Template URL
+String url = "http://user-service/" + "/users";		

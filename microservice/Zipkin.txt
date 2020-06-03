@@ -1,0 +1,35 @@
+Sleuth
+=======
+1)Add dependency
+spring-cloud-starter-sleuth
+Zipkin
+=======
+Sleuth generates the traceId and spanId.
+But it is difficult to make use of that data in its raw form. This is where Zipkin is used.
+Zipkin is a distributed tracing system which allows us to gather information on the trace of a request.
+By adding appropriate dependency, we make sleuth send all its details to a Zipkin server. 
+The Zipkin server has an in memory DB where the details are stored.
+Zipkin has a powerful UI application, which allows to analyse the logs and take appropriate action.
+STEPS
+=====
+1)Create a project with zipkinconfig
+
+2)add the below dependencies://zipkin-server,zipkin-autoconfigure-ui
+
+<dependency>
+<groupId>io.zipkin.java</groupId>
+<artifactId>zipkin-autoconfigure-ui</artifactId>
+<scope>runtime</scope>
+</dependency>
+<dependency>
+<groupId>io.zipkin.java</groupId>
+<artifactId>zipkin-server</artifactId>
+</dependency>
+3)Add the @EnableZipkinServer annotation to the Main class
+4)Configure zipkin to run in port 9411
+5) ALl MS add //spring-cloud-starter-zipkin
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+

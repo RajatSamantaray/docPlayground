@@ -1,0 +1,16 @@
+Ribbon
+=====
+1)Create 2 instances for user ribbon
+2) Add dependency spring-cloud-starter-netflix-ribbon in ConsumerRibbon
+3)Add in CusumerRibbon MS main class
+@Bean @LoadBalanced
+	RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+4) Add @RibbonClient(name="custribbon")  in the controller
+
+To call the URL give as	String url = "http://custribbon/" + "/users";	
+
+5) In application.property add
+custribbon.ribbon.eureka.enabled=false 
+custribbon.ribbon.listOfServers=http://localhost:8301,http://localhost:8300

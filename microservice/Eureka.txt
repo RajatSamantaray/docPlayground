@@ -1,0 +1,23 @@
+Steps
+=====
+1)Create MS Discovery
+2) Add dependency
+
+spring-cloud-starter-netflix-eureka-server or spring-cloud-starter-eureka-server
+
+3) Add @EnableEurekaServer in Discovery MS main class
+
+4) Add in application.property
+	server.port=1111
+	spring.application.name=Eureka
+	eureka.client.fetch-registry=false
+	eureka.client.register-with-eureka=false
+	eureka.client.service-url.defaultZone=http://localhost:1111/eureka
+
+5) All MS add dependency
+	spring-cloud-starter-eureka
+
+6) All MS in main class add @EnableEurekaClient
+
+7) Add in aplcation.property file
+	eureka.client.service-url.defaultZone=http://localhost:1111/eureka/

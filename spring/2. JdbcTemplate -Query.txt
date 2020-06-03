@@ -1,0 +1,457 @@
+2. Query API/Query Based Approach:
+Note:
+Assume we have following tables as data model
+STUDENT:
+-------
+STUDENT_ID
+NAME
+
+COURSE:
+-------
+COURSE_ID
+NAME
+
+STUDENT_COURSE:
+---------------
+STUDENT_ID
+COURSE_ID
+
+In spring there is no classic or query approaches rather we are differentiating the approaches like this bcz JdbcTemplate class will have lot of methods so it gets loded with bunch of api methods. That is the reason to understand these we grouped like 2-ways.
+
+Performing DQL, DML:
+1. DQL:
+|-i) Execute Aggregate queries
+|-ii) One column from one row 
+|-iii) One row/record 
+|-iv) Multiple rows
+|-v) Selecting partial columns of all records/Query For List
+
+2. DML:
+|-i) Insert 
+|-ii) Update
+|-iii) Delete
+
+3. Rollup Logic
+4. Pagination
+
+1. DQL:
+
+class StudentDao {
+  String final static GET_NO_OF_STUDENTS = "SELECT COUNT(1) FROM STUDENT";
+
+  private JdbcTemplate jdbcTemplate;
+
+  public StudentDao() {
+  }
+
+  //inject via constructor injection  
+  public StudentDao(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate=jdbcTemplate;
+  }
+  
+  public int getNoOfStudents() {
+    return jdbcTemplte.queryForInt(GET_NO_OF_STUDENTS);
+  }
+
+  public String findStudentNameById(int id) {
+    return jdbcTemplte.queryForObject(GET_STUDENT_NAME_BY_ID, String.class, new Object[] {id});
+  }
+
+  public StudentBo getStudentById(int id) {
+    return jdbcTemplte.queryForObject(GET_STUDENT_BY_ID, new Object[] {id}, new StudentBoRowMapper());
+  }
+
+  public List<StudentBo> getStudentByName(String name) {
+    return jdbcTemplte.query(GET_STUDENT_BY_NAME, new Object[] {"%"+name+"%"}, new StudentBoRowMapper());
+   //note that we are calling query(-,-,-) shown in this method
+  }
+}
+
+i) Execute Aggregate query:
+final static String GET_NO_OF_STUDENTS = "SELECT COUNT(1) FROM STUDENT";
+
+Never use * bcz it is quite expensive
+count(*) means select all columns in a row then count it as record
+count(1) means select one column in a row then count it as record
+
+Explanation:
+jdbcTemplte.queryForInt(sql);
+-It is used for to getting an integer value.
+When we call this method jdbcTemplate it takes care of managing the boiler plate logic like 
+1. surrounding code in try and catch i.e Exceptions management
+2. creating the con
+3. creating the stmt/pstmt
+4. executing the stmt/pstmt 
+5. transactions
+6. getting and extracting the rs
+7. returing the return value
+8. closing the resources.
+
+Note:
+jdbcTemplate uses stmt if no params are there and uses pstmt if params are there for query.
+
+jdbcTemplte.queryForInt(sql);
+-It is used for to getting an integer value.
+
+If we have double, long String etc then jdbcTemplate need to provide queryForDouble(sql); queryForLong(sql); like then API methods will becomes more in the JdbcTemplate class that's where they provided one common method called as jdbcTemplate.queryForObject(String sql, Class.class); so that we can pass String.class  and Long.class etc in the place of Class.class so that we can get any primitive types as return types.
+If we have query params then we need to use below method
+jdbcTemplate.queryForObject(String sql, Class.class, Object[]{sqlParams});
+
+That means queryForObject(String sql, Class.class and queryForObject(String sql, Class.class, Object[]{sqlParams}); are overloaded methods.
+
+ii) One column from one row:
+final static String FIND_STUDENT_NAME_BY_ID = "SELECT NAME FROM STUDENT WHERE STUDENT_ID=?";
+
+iii) One row/record:
+final static String GET_STUDENT_BY_ID = "SELECT STUDENT_ID, NAME FROM STUDENT WHERE STUDENT_ID=?";
+
+Here we will get one row/record of data but spring don't know how to convert the one record of ResultSet data into object format that's where we need to map the ResultSet row data (one row indicates one obj of data bcz we are fetching total entire one record) into an object format by writing class StudentRowMapper by implementing from the RowMapper and override the mapRow(ResultSet rs, int rowIndex) and then call jdbcTemplte.queryForObject(GET_STUDENT_BY_ID, new Object[] {id}, new StudentRowMapper()); by passing StudentRowMapper class obj as param so that this method will be called by the Spring JDBC and knows how to map the ResultSet data into an obj format and returns the obj of data to us.
+
+class StudentBoRowMapper implements RowMapper<StudentBo> {
+  @Override
+  public StudentBo mapRow(ResultSet rs, int rowIndex) {
+    return new StudentBo(rs.getInt("STUDENT_ID"), rs.getString("NAME"));
+  }
+}
+
+iv) Multiple rows:
+final static String GET_STUDENTS_BY_NAME = "SELECT STUDENT_ID, NAME FROM STUDENT WHERE NAME LIKE ?";
+
+class StudentBoRowMapper implements RowMapper<StudentBo> {
+  @Override
+  public StudentBo mapRow(ResultSet rs, int rowIndex) {
+    return new StudentBo(rs.getInt("STUDENT_ID"), rs.getString("NAME"));
+  }
+}
+
+Internally what happens if we call methods on jdbcTemplate:
+
+class JdbcTemplate {
+  private DataSource source;
+  
+  //Default constructor
+  public JdbcTemplate() {
+  }
+
+  //param constructor
+  public JdbcTemplate(DataSource source) {
+    this.source=source;
+  }
+
+  //setter   
+  public void setDataSource(DataSource source) {
+    this.source=source;
+  }
+
+  public int queryForInt(String sql) {
+    Connection con=null;    
+    PreparedStatement pstmt=null;
+    Statement stmt=null;
+    ResultSet rs=null;
+
+    try {
+      Object ret=null;
+
+      con=dataSource.getConnection();
+      stmt=con.createStatement();            
+      rs=stmt.exceteQuery(sql);
+      
+      if(rs.next()) {
+        ret=rs.getInt(1);
+      }
+      return ret;
+    } catch(SqlException sqe) {
+      throw new DataAccessException(sqe);
+    } finally() {
+      //closing the resources
+    }
+    return 0;   
+  }
+
+  public Object queryForObject(String sql, Class classType, Object[]{sqlParams}) {
+    try {
+      Object ret=null;
+
+      con=dataSource.getConnection();
+      pstmt=con.prepareStatement(sql); 
+      //subtitute the positional sqlParams
+      rs=pstmt.exceteQuery();
+      
+      if(rs.next()) {
+        if(classType==String.class) {
+         ret=rs.getString(1);
+        } else if(classType==Integer.class) {
+          ret=rs.getInt(1);
+        } else if(classType==Double.class) {
+          ret=rs.getDouble(1);
+        }
+      }
+           
+      return ret;
+    } catch(SqlException sqe) {
+      throw new DataAccessException(sqe);
+    } finally() {
+      //closing the resources
+    }
+    return null;     
+  }
+
+  public Object queryForObject(String sql, new Object[] {sqlParams}, RowMapper mapper) {
+    try {
+      Object ret=null;
+
+      con=dataSource.getConnection();
+      pstmt=con.prepareStatement(sql);            
+      //subtitute the positional sqlParams
+      rs=pstmt.exceteQuery();
+      
+      if(rs.next()) {
+        StudentBo studentBo=mapper.rowMap(rs, 1);
+        //If we map one record then all the records also same and that
+          if condition will executes only once here so we can pass "1"
+        return studentBo;
+      }
+    } catch(SqlException sqe) {
+      throw new DataAccessException(sqe);
+    } finally() {
+      //closing the resources
+    }
+    return null;     
+  }
+
+  public List<Object> query(String sql, new Object[] {sqlParams}, RowMapper mapper) {
+    try {
+      List<Object> collection=null;
+      
+      con=dataSource.getConnection();
+      pstmt=con.prepareStatement(sql);            
+      //subtitute the positional sqlParams
+      rs=pstmt.exceteQuery();
+      
+      collection = new ArrayList<Object>();
+      int rowIndex=0;
+      while(rs.next()) {
+        StudentBo studentBo=mapper.rowMap(rs, rowIndex);
+        collection.add(studentBo);
+        rowIndex++;
+        return collection;
+      }
+    } catch(SqlException sqe) {
+      throw new DataAccessException(sqe);
+    } finally() {
+      //closing the resources
+    }
+    return null;     
+  }
+}
+
+
+Note:
+Assume we have following tables as data model by adding some addtional colums for better understand
+STUDENT:
+-------
+STUDENT_ID
+NAME
+MOBILE
+EMAIL
+
+COURSE:
+-------
+COURSE_ID
+NAME
+
+STUDENT_COURSE:
+---------------
+STUDENT_ID
+COURSE_ID
+
+v) Selecting partial columns of all records/Query For List:
+
+final static String GET_ALL_STUDENTS_NAME_AND_MOBILE = "SELECT NAME, MOBILE FROM STUDENT";
+
+Here we are getting partial columns of all records of Student table but we are not getting the hole records of the data so it is not good to map all the attributes to get partial colums of all the records of Student table.
+
+//Write this method in DAO
+
+public List<Map<String, Object>> getAllStudentNameAndMobile() {
+  return jdbcTemplate.queryForList(GET_ALL_STUDENTS_NAME_AND_MOBILE);
+}
+
+STUDENT_ID	NAME	MOBILE	EMAIL
+1		RAMA	11111	rama@.com
+2		SITA	22222	sita@.com
+3 		LAKKI	33333	lakki@.com
+
+List:
+[
+ {NAME=RAMA, MOBILE=1111}
+ {NAME=SITA, MOBILE=22222}
+ {NAME=LAKKI,MOBILE=33333}
+]
+
+How do we get the partial data from all the records of table from the DB?
+Ans: We need to use queryForList(String sql);
+
+Note: 
+If we don't want Spring JDBC then by using the above internal code we design a wrapper/FrameWork on top of the Java JDBC by our own to void the problems that are there in the Java JDBC.
+
+Coding Conventions:
+1. Create the creator class name (name can lengthy also) based on the query that we are executing.
+2. Here GetAllStudentsStatementCreator and GetAllStudentsStatementCallback classes will be used by the Dao only and no classes are going to use these that's why it is recomended to create these classes as inner classes within the Dao.
+
+Purpose of inner classes:
+If a class is not refernced by any other classes with in our application apart form the class in which we wanted to use it then rather than creating the class as normal or public class better to create it as inner class with in the same class in which we are using.
+3. Never declare the SQL Queries within the place where we are using it, rather we need to declare all the SQL Queries in top of our Dao class that means we need to maintain the 3-sections in our class
+(i) Queries Section
+(ii) Variable declarations
+(ii) Logics section
+Bcz if we have Dao class which contains 1000 lines of code where we refered the same query multiple times then if we wanted to change the query table column names bcz of Data Bases column modified then it difficlut maintain the code so we need to declare in top of the Dao class so that we can modify in one place and gets refleted easily with in all the places wherer we are refering.
+Declare the Query name always starts with convention called as SQL and give the name based on which operation that query is performing with Capital letters and declare the variable as final and if inner calss is static then only declare it as static other wise not required to be static.
+
+Never write the "*" as part of the SQL Query for DML or DQL as well and always declare the query need to refer the which columns we are getting from the DB.
+
+Ex: SQL_GET_ALL_STUDENTS="SELECT STUDENT_ID, NAME FROM STUDENT";
+
+Becarefull while writing SQL Queries with Capital letters bcz every DB will have colatin if they have confgured colatin as case sensitive then we need to write in small letters otherwise we can write in Capital letters.
+4. It is recomended to implement from the Serializable interface.
+
+Write a snippet of code to execute the query?
+The interviewer will checks our coding conventions that's where we need to follow the coding convention other wise they will treates us as Non-Real Time Employee.
+
+5. If our method is returing 
+i. one value then we have name that method as finder method followed by requirement convention.
+ii. collection/group values then we need name that method getter method followed by requirement convention.
+
+6. If we are performing
+i. insert then we need name as save followed requirement convention.
+ii. updatinf then we need name as update followed by requirement convention.
+iii. deleting then we need to name as delete followed by requirement convention.
+
+
+2. DML:
+
+
+
+1. Rollup Logic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

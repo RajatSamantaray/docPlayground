@@ -1,0 +1,58 @@
+Monlithic Approach: Spring BOOT
+BL+DB+PR
+War/jar/Ear-->Monolithic application
+services---microservices----
+===================================
+
+1. Central configuration--GIT
+2. Multiple instance--Not bothered about the URL+port of a MS: Ribbon---NetFlix
+3. Dynamic discovery of other microservices:Eureka
+4. Fall back option:Hystrix
+5. Gateway as well:Zuul--API gateway
+	The API gateway pattern is a solution to the problems of a 	client invoking microservices. 
+6. Security--->OAUTH
+7. Tracing-->Sleuth/ZIPKIN
+=====================================
+Monlithic Approach=> Spring BOOT
+
+1)Larger codebase->no restricition
+2)Longer deployment->challengining deployment
+3)Fixed Technology
+4)Scaling is complex
+5) Minor change->rebulid
+6) Failure in part of s/m ->entire s/m
+7) Tight coupling among modules and services
+Microservice
+--------
+1) Atomic
+2) Collaborative
+3)Independent and focuced
+---------------------------
+Single resposibility Priciple->
+Service Boundaries-->DOmain Deriven Design Principle
+commonclosure priniciple-->
+
+--------------
+architectural style ->
+differ language
+indeplendly deployable
+diff data storage
+lightweight ->communication->resttemple
+own process
+================================
+Cloud Config ==>github/ codehub
+============
+AWS/GCP/AZURE
+Netflix OSS
+Spring Cloud
+Boot 2.1.2=> Greenwich .SR2
+2.0.4=> Finchley.SR4
+1.=> Edgware
+Dalston
+---------------
+
+
+
+
+
+

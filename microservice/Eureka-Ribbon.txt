@@ -1,0 +1,18 @@
+Ribbon is typically used along with Eureka.
+
+Instead of static list, we can get a dynamic list of servers by using it with Eureka.
+When used with Eureka, not only will Ribbon get the server list, but also will depend on the Eureka to know if a service is up or not.
+
+Steps:
+1)Remove Autowire of DiscoverClient and Autowire load balanced RestTemplate
+2)Remove code for getting URI from discovery client
+3)Access the PlanMS and FriendMS through rest template object and use the names of the service instead of the URI. 
+Since Eureka is used, the URI will be picked automatically based on the service name.
+
+PlanDTO planDTO=template.getForObject("http://PLANMS"+"/plans/"+custDTO.getCurrentPlan().getPlanId(), PlanDTO.class); 
+List<Long> friends=template.getForObject("http://FRIENDFAMILYMS"+"/customers/"+phoneNo+"/friends", List.class); 
+=====================
+Eureka is rarely run as a single instance, as it would become a single point of failure. 
+Typically we run multiple instances of Eureka forming a cluster. 
+In a cluster, each Eureka server replicates the information in the other servers.
+

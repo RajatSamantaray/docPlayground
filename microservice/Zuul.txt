@@ -1,0 +1,23 @@
+
+
+${PORT:${SERVER_PORT:0}}
+
+ZUUL
+----
+1)Create a new spring boot project called zuulConfig
+
+2) Add the zuul dependencies // spring-cloud-starter-zuul
++ eureka + cloud config dependencies(//from git need the data).
+3)Add the below annotations in the main class of zuulconfig
+
+@EnableZuulProxy// for zuul
+@EnableDiscoveryClient //for eureka
+
+4)Routes can be added using the 
+
+zuul.routes.<routeName>.path=/<URI> //routename can be anything
+zuul.routes.<routeName>.service-id=<ServiceName> .
+strip-//we can avoid repetition in the path.
+
+/<URI>/** will match anything after the given URI.
+a single * can be used as a wildcard  character : eg: /URI/*/hello. 

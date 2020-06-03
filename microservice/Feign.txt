@@ -1,0 +1,24 @@
+Feign Declartive Clients
+==========================
+Feign is a declarative web service client. It makes writing web service clients easier.
+=============================================
+Steps:
+1.Add dependency for Feign //spring-cloud-starter-feign
+2.Annotation @EnableFeignClients ---Main class(Consumer class)
+3.Create an interface UserFeign//anyname
+4.Annotated the interface with @FeignClient
+5. Define the method no need of implementation //run time framework will create
+6)Autowire the feign client in Contollerclass: 
+	@Autowired
+    	UserFeign userFeign;
+5) Invoke the call as: userFeign.methodName();
+
+=============================================================
+@EnableFeignClients Scans for interfaces that declare they are feign clients.(via  @FeignClient)
+============================================================
+In the @FeignClient annotation the String value is an arbitrary client name, which is used to create a Ribbon load balancer.
+============================================================
+ If your application is a Eureka client then it will resolve the service in the Eureka service registry. 
+If you don’t want to use Eureka, you can simply 
+configure a list of servers in your external configuration 
+============================================================

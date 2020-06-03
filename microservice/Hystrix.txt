@@ -1,0 +1,24 @@
+Hystrix
+========
+Using Netflix Hystrix, we can apply a circuit breaker pattern in our application. 
+Hystrix will open the circuit when the numbers of failures in a given time frame are more. 
+Hystrix uses the Fail Fast approach. 
+It is better to fail fast than to fail big time later.
+
+STEPS
+=====
+1)Add dependency in 
+spring-cloud-starter-hystrix
+2)Add @EnableCircuitBreaker annotation in main class
+3) Add @HystrixCommand(fallbackMethod="getConsumersfallback")
+in the controller class
+4) Add fallback method (A fallback method should be defined in the same class where is HystrixCommand. A fallback method should have same signature to a method which was invoked )
+5) Add application.property Hystrix field
+#atleast 4 request to be send
+hystrix.command.default.circuitBreaker.requestVolumeThreshold=4
+#//10sec openstate how long
+hystrix.command.default.circuitBreaker.sleepWindowInMilliseconds=10000 
+# Request to be send in 10 sec
+hystrix.metrics.rollingStats.timeInMilliseconds=10000 
+#/50%fail
+hystrix.command.default.circuitBreaker.errorThresholdPercentage=50 

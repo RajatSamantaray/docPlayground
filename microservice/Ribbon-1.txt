@@ -1,0 +1,65 @@
+Need for Load Balancing?
+
+Client Side vs Server Side Load Balancing
+==========================
+Server Side Load Balancing
+--------------------------
+Put a load balancer in front of the infytel-friend-family instances.// usually a hardware load balancer.
+The infytel-customer would simply send the request to the load balancer
+The load balancer to decide whom it should forward the request to. 
+This concept is also known as Server-Side load balancing.
+Disadv:
+If the load balancer fails, then we don’t have access to any of the instances of the microservice
+Each microservice would have a dedicated load balancer, we have to manage, track and maintain hundreds of such load balancers.
+It increases network latency.( Now it would take two hops to reach the service. One to the load balancer and another from the load balancer)
+==============================================================
+Client side load balancing
+---------------------------
+The client is responsible for deciding to whom it will send the request to. 
+The client side load balancers are thus software load balancers and not traditional hardware load balancers.
+ Disadv: we are mixing our application code with load balancing code.
+=================================================================================
+
+Spring-Cloud Netflix has a client load balancer called Ribbon. 
+
+Steps
+----
+1.Add dependency in the infytel-customer //spring-cloud-starter-ribbon
+
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-ribbon</artifactId>
+</dependency>
+
+2.Create a Configuration class with the below bean
+
+@Bean @LoadBalanced
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+}
+
+3.Autowire the RestTemplate as @Autowired RestTemplate template; in the CustomerController
+
+4.Add @RibbonClient(name="custribbon") annotation on the CustomerController class
+
+5.Add the below properties in the properties file:
+
+custribbon.ribbon.eureka.enabled=false
+custribbon.ribbon.listOfServers=http://localhost:8001,http://localhost:8002
+
+6.Autowire the rest template and update the infytel-friend-family invocation in CustomerController as
+List<Long> friends = template.getForObject("http://custribbon/customers/" + phoneNo+"/friends", List.class);
+
+7.Run the application, with the two instances of FriendFamilyMS running in two different ports
+======================================================================
+By default ribbon uses the NoOpPing strategy for checking if the services are up. 
+NoOpPing is a dummy strategy. It assumes that all services are up. Thus it will keep pinging the services even if they are down.
+ 
+We can configure the Ping strategy so that we stop sending requests to services which are down.
+
+Also, Ribbon by default uses Round Robin load balancing strategy.
+
+These things can be modified by adding a configuration file.
+clientName>.<nameSpace>.<propertyName>=<value >
+custribbon.default.NFLoadBalancerRuleClassName=com.netflix.loadbalancer.RandomRule
+
